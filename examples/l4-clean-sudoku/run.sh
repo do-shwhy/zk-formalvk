@@ -21,4 +21,7 @@ lake env lean Clean/Examples/WitnessExport.lean
 echo "[clean] running zk-formalvk mini Sudoku demo"
 lake env lean "$SCRIPT_DIR/SudokuClean.lean"
 
+echo "[clean] running zk-formalvk split 9x9 Sudoku demo"
+lake env lean "$SCRIPT_DIR/Sudoku9x9Clean.lean"
+
 echo "[clean] ok"
