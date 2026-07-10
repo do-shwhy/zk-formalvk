@@ -95,7 +95,7 @@ ZK 形式化验证不是单点问题，而是一条链：
 |---|---|---|---|---|---|
 | L1 规格层 | statement / VM 语义 / 业务规则 | 规格是否写对 | TLA+、Lean/Coq 规格 | [数独 Lean 规格](examples/l1-sudoku-spec) | 写业务规格，证明 theorem |
 | L2 程序/DSL 层 | Circom / Noir / Leo / trace generator | 程序语义是否 refinement 到规格 | CODA、NAVe、Circomspect、[clean](https://github.com/Verified-zkEVM/clean) | [Circomspect 示例](examples/l2-circomspect) | ZK DSL 层的轻量静态分析；clean 是“写 circuit 时同步证明”的路线 |
-| **L3 约束/AIR 层** | R1CS / PLONKish / Halo2 / AIR | constraints/AIR 是否漏约束等 | **Picus、CIVER、halo2-analyzer、CertiPlonk** | [Picus under-constrained 示例](examples/l3-picus) | **工程上最关键** 直接对约束层进行静态分析 |
+| **L3 约束/AIR 层** | R1CS / PLONKish / Halo2 / AIR | constraints/AIR 是否漏约束等 | **Picus、CIVER、halo2-analyzer、CertiPlonk** | [Picus under-constrained 示例](examples/l3-picus)、[CIVER weak-safety / postcondition 示例](examples/l3-civer) | **工程上最关键** 直接对约束层进行静态分析 |
 | L4 编译/IR 层 | DSL -> constraints / AIR | lowering 是否保持 refinement | [clean](https://github.com/Verified-zkEVM/clean)、[CirC](https://eprint.iacr.org/2020/1586)、[finite-field-blasting verification](https://eprint.iacr.org/2023/778)、[SMT over finite fields](https://eprint.iacr.org/2023/091) | [clean 数独 demo](examples/l4-clean-sudoku) | 重要但工具化较弱，clean 是较新的实用方向 |
 | L5 证明协议层 | Groth16 / PLONK / STARK / FRI / PCS | 协议 soundness / completeness / ZK 是否成立 | Groth16/PLONK/STARK/FRI 原论文、[Lean SNARK soundness](https://www.usenix.org/conference/usenixsecurity24/presentation/bailey)、[EasyCrypt ZKP](https://arxiv.org/abs/2104.05516) | 无 demo，依赖论文证明/机器检查证明 | 基础可信根 |
 | L6 verifier/实现层 | Rust/Solidity verifier、transcript、序列化 | verifier 是否验对对象、绑对 proof / vk / public input / statement | fuzzing、审计、符号执行、实现级形式化验证 | [verifier 绑定示例](examples/l6-verifier-binding) | 部署安全层 |
@@ -220,7 +220,7 @@ L5 soundness 证明通常活在理想模型里；部署系统还要处理 byte e
 | Proof-carrying DSL | clean、zkLean、CLAP | 写 circuit 时同步证明规格、约束和 witness |
 | Existing-code verification | Garden/Rocq、CertiPlonk、SP1 Lean | 验证已有 Rust/Plonky3/zkVM 约束实现 |
 | Common IR / translation validation | LLZK、CirC、MLIR sidekick | 多 DSL 到 AIR/R1CS/Plonkish 的语义保持 |
-| Analyzer / bug finding | Picus、CIVER、halo2-analyzer、AVAZAR | 自动找 under-constrained / weak-safety 反例 |
+| Analyzer / bug finding | Picus、[CIVER](examples/l3-civer)、halo2-analyzer、AVAZAR | 自动找 under-constrained / weak-safety 反例，并检查 functional postcondition |
 | zkVM semantics | Sail RISC-V、OpenVM、SP1、Jolt、EthProofs | 指令、lookup bus、memory、trace 全局一致性 |
 | Protocol FV | ArkLib、VCV-io、EasyCrypt、SSProve | FRI、sumcheck、Fiat-Shamir、SNARK soundness |
 | AI + FV | zk.golf、zkao、Aristotle/Claude + Lean | AI 写/优化/审计，proof checker 负责验收 |
